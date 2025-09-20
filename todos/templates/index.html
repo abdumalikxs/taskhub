@@ -1,1 +1,13 @@
-<h1>This is a Page where the todos should be listed</h1>
+<!-- prettier-ignore -->
+{% regroup all_todos by todolist as grouped_todos %}
+<!-- grouped_todos is a Python list of dicts -->
+{% for group in grouped_todos %}
+<h2>{{ group.grouper.name }}</h2>
+<ul>
+  {% for t in group.list %}
+  <li>{{ t.title }}{% if t.done %} (done) {% else %} (not done) {% endif %}</li>
+  {% endfor %}
+</ul>
+{% empty %}
+<p>No todos yet.</p>
+{% endfor %}
