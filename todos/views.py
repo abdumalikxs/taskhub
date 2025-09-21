@@ -93,5 +93,12 @@ class ListAdd(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-# class ListEdit():
-#     pass
+class ListEdit(LoginRequiredMixin, UpdateView):
+    model = TodoList
+    fields = ['name']
+    success_url = reverse_lazy("index-list")
+    template_name = 'todos/edit_list.html'
+
+    # Only allow editing lists that belong to the current user (Cuz via URL it's possible)
+    def get_queryset(self):
+        return TodoList.objects.filter(user=self.request.user)

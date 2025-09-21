@@ -26,6 +26,11 @@
       {% csrf_token %}
       <button>Delete</button>
    </form>
+       <!-- Necessary to be get to send POST request to load a page with a prefill ! -->
+   <form action="{% url 'list-edit' group.grouper.pk %}" method="get" style="display:inline;">
+      <button type="submit">Edit</button>
+   </form> 
+
 </h3>
 <ul>
   {% for t in group.list %}

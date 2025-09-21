@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import IndexList, TodoCreate, TodoToggle, TodoDelete, ListAdd, ListDelete, TodoEdit
-# ListEdit
+from .views import IndexList, TodoCreate, TodoToggle, TodoDelete, ListAdd, ListDelete, TodoEdit, ListEdit
+
 urlpatterns = [
     path('', IndexList, name='index-list'),
 
@@ -13,6 +13,6 @@ urlpatterns = [
     # LISTS
     path('add-list/', ListAdd.as_view(), name='list-add'),
     path('delete-list/<int:pk>/', ListDelete.as_view(), name='list-delete'),
-    # path('delete-list/<int:pk>/', ListEdit.as_view(), name='list-edit'),
+    path('edit-list/<int:pk>/', ListEdit.as_view(), name='list-edit'),
 
 ]
