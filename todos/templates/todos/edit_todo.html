@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Todo</title>
+  </head>
+  <body>
+    <h2>Editing: {{ object.title }}</h2>
+
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Save</button>
+      <button
+        type="button"
+        onclick="window.location.href='{% url 'index-list' %}'"
+      >
+        Cancel
+      </button>
+    </form>
+  </body>
+</html>

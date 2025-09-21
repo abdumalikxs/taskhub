@@ -1,11 +1,53 @@
 <!-- prettier-ignore -->
+<p>Hello, {{ request.user.username }} —
+  <form action="{% url 'logout' %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+  </form>
+</p>
+
+<h1>Your Todo Lists</h1>
+
+<button type="button" onclick="window.location.href='{% url 'todo-add' %}'">
+  New Task
+</button>
+
+<form action="{% url 'list-add' %}" method="post">
+  {% csrf_token %}
+ <input name="name" placeholder="New list..." required /> 
+  <button type="submit">Add New List</button>
+</form>
+
 {% regroup all_todos by todolist as grouped_todos %}
 <!-- grouped_todos is a Python list of dicts -->
 {% for group in grouped_todos %}
-<h2>{{ group.grouper.name }}</h2>
+<h3>{{ group.grouper.name }}    
+   <form action="{% url 'list-delete' group.grouper.pk %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button>Delete</button>
+   </form>
+</h3>
 <ul>
   {% for t in group.list %}
-  <li>{{ t.title }}{% if t.done %} (done) {% else %} (not done) {% endif %}</li>
+  <li>
+    <form action="{% url 'todo-toggle' t.pk %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <input type="hidden" name="done" value="{% if t.done %}False{% else %}True{% endif %}">
+      <button>[{% if t.done %}✓{% else %} {% endif %}]</button>
+      {{ t.title }} - {{ t.deadline }}
+    </form>
+
+    <form action="{% url 'todo-delete' t.pk %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button>Delete</button>
+    </form>
+
+    <!-- Necessary to be get to send POST request to load a page with a prefill ! -->
+    <form action="{% url 'todo-edit' t.pk %}" method="get" style="display:inline;">
+      <button type="submit">Edit</button>
+    </form> 
+
+  </li>
   {% endfor %}
 </ul>
 {% empty %}

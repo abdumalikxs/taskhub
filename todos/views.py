@@ -40,30 +40,58 @@ class TodoCreate(LoginRequiredMixin, CreateView):
     fields = ["title", "todolist", "deadline"]
     success_url = reverse_lazy("index-list")
 
-    # def get_form(self, form_class=None):
-    #     form = super().get_form(form_class)
-    #     form.fields["todolist"].queryset = TodoList.objects.filter(user=self.request.user)
-    #     return form
+    def get_form(self, form_class=None):  # edit the behavior of form
+        form = super().get_form(form_class)
+        # only show lists owned by this user
+        form.fields["todolist"].queryset = TodoList.objects.filter(
+            user=self.request.user)
+        return form
 
 
 class TodoToggle(LoginRequiredMixin, UpdateView):
-    model = Todo
+    model = TodoItem
     fields = ["done"]
-    success_url = reverse_lazy("todo-list")
+    success_url = reverse_lazy("index-list")
 
 
 class TodoDelete(LoginRequiredMixin, DeleteView):
-    model = Todo
-    success_url = reverse_lazy("todo-list")
+    model = TodoItem
+    success_url = reverse_lazy("index-list")
+
+
+class TodoEdit(LoginRequiredMixin, UpdateView):
+    model = TodoItem
+    fields = ['title', 'todolist', 'done', 'deadline']
+    success_url = reverse_lazy("index-list")
+    template_name = 'todos/edit_todo.html'
+
+    # Only allow editing items that belong to the current user (Cuz via URL it's possible)
+    def get_queryset(self):
+        return TodoItem.objects.filter(todolist__user=self.request.user)
+
+    # Limit ‘todolist’ dropdown to the current user’s lists while editing
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["todolist"].queryset = TodoList.objects.filter(
+            user=self.request.user)
+        return form
 
 
 # LIST VIEWS:
-class ListDelete():
-    pass
+class ListDelete(LoginRequiredMixin, DeleteView):
+    model = TodoList
+    success_url = reverse_lazy("index-list")
 
 
-class ListAdd():
+class ListAdd(LoginRequiredMixin, CreateView):
+    model = TodoList
+    fields = ["name"]
+    success_url = reverse_lazy("index-list")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+# class ListEdit():
+#     pass
