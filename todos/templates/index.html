@@ -1,60 +1,154 @@
 <!-- prettier-ignore -->
-<p>Hello, {{ request.user.username }} —
-  <form action="{% url 'logout' %}" method="post" style="display:inline;">
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="mb-8">
+  <h1 class="text-4xl font-extrabold text-gray-900 text-center tracking-tight">
+    Your Todo Lists
+  </h1>
+</div>
+
+<!-- Actions row -->
+<div
+  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8"
+>
+  <button
+    type="button"
+    onclick="window.location.href='{% url 'todo-add' %}'"
+    class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-white font-medium shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+  >
+    + New Task
+  </button>
+
+  <form
+    action="{% url 'list-add' %}"
+    method="post"
+    class="flex items-center gap-3"
+  >
     {% csrf_token %}
-    <button type="submit">Logout</button>
+    <input
+      name="name"
+      placeholder="New list..."
+      required
+      class="w-64 rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-800 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
+    />
+    <button
+      type="submit"
+      class="rounded-lg bg-gray-800 px-4 py-2 text-white font-medium shadow hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
+    >
+      Add New List
+    </button>
   </form>
-</p>
-
-<h1>Your Todo Lists</h1>
-
-<button type="button" onclick="window.location.href='{% url 'todo-add' %}'">
-  New Task
-</button>
-
-<form action="{% url 'list-add' %}" method="post">
-  {% csrf_token %}
- <input name="name" placeholder="New list..." required /> 
-  <button type="submit">Add New List</button>
-</form>
+</div>
 
 {% regroup all_todos by todolist as grouped_todos %}
 <!-- grouped_todos is a Python list of dicts -->
-{% for group in grouped_todos %}
-<h3>{{ group.grouper.name }}    
-   <form action="{% url 'list-delete' group.grouper.pk %}" method="post" style="display:inline;">
-      {% csrf_token %}
-      <button>Delete</button>
-   </form>
-       <!-- Necessary to be get to send POST request to load a page with a prefill ! -->
-   <form action="{% url 'list-edit' group.grouper.pk %}" method="get" style="display:inline;">
-      <button type="submit">Edit</button>
-   </form> 
+<div class="space-y-6">
+  {% for group in grouped_todos %}
+  <section class="rounded-xl bg-white shadow border border-gray-100">
+    <!-- Card header -->
+    <div
+      class="flex items-center justify-between px-5 py-4 border-b border-gray-100"
+    >
+      <h3 class="text-xl font-semibold text-gray-800">
+        {{ group.grouper.name }}
+      </h3>
+      <div class="flex items-center gap-2">
+        <form
+          action="{% url 'list-delete' group.grouper.pk %}"
+          method="post"
+          class="inline"
+        >
+          {% csrf_token %}
+          <button
+            class="rounded-md bg-red-50 text-red-700 px-3 py-1.5 text-sm font-medium hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-300"
+          >
+            Delete
+          </button>
+        </form>
 
-</h3>
-<ul>
-  {% for t in group.list %}
-  <li>
-    <form action="{% url 'todo-toggle' t.pk %}" method="post" style="display:inline;">
-      {% csrf_token %}
-      <input type="hidden" name="done" value="{% if t.done %}False{% else %}True{% endif %}">
-      <button>[{% if t.done %}✓{% else %} {% endif %}]</button>
-      {{ t.title }} - {{ t.deadline }}
-    </form>
+        <!-- Necessary to be get to send POST request to load a page with a prefill ! -->
+        <form
+          action="{% url 'list-edit' group.grouper.pk %}"
+          method="get"
+          class="inline"
+        >
+          <button
+            type="submit"
+            class="rounded-md bg-blue-50 text-blue-700 px-3 py-1.5 text-sm font-medium hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+            Edit
+          </button>
+        </form>
+      </div>
+    </div>
 
-    <form action="{% url 'todo-delete' t.pk %}" method="post" style="display:inline;">
-      {% csrf_token %}
-      <button>Delete</button>
-    </form>
+    <!-- Card body: todos -->
+    <ul class="divide-y divide-gray-100">
+      {% for t in group.list %}
+      <li class="flex items-center justify-between px-5 py-3">
+        <div class="flex items-center gap-3">
+          <form
+            action="{% url 'todo-toggle' t.pk %}"
+            method="post"
+            class="inline"
+          >
+            {% csrf_token %}
+            <input
+              type="hidden"
+              name="done"
+              value="{% if t.done %}False{% else %}True{% endif %}"
+            />
+            <button
+              class="h-6 w-6 rounded-md border {% if t.done %}bg-green-500 border-green-500 text-white{% else %}border-gray-400 text-gray-600{% endif %} flex items-center justify-center"
+              title="Toggle done"
+            >
+              {% if t.done %}✓{% else %}&nbsp;{% endif %}
+            </button>
+          </form>
 
-    <!-- Necessary to be get to send POST request to load a page with a prefill ! -->
-    <form action="{% url 'todo-edit' t.pk %}" method="get" style="display:inline;">
-      <button type="submit">Edit</button>
-    </form> 
+          <div class="text-gray-800">
+            <span class="font-medium">{{ t.title }}</span>
+            <span
+              class="ml-2 inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600"
+            >
+              {{ t.deadline }}
+            </span>
+          </div>
+        </div>
 
-  </li>
+        <div class="flex items-center gap-2">
+          <form
+            action="{% url 'todo-delete' t.pk %}"
+            method="post"
+            class="inline"
+          >
+            {% csrf_token %}
+            <button
+              class="rounded-md bg-red-50 text-red-700 px-3 py-1.5 text-sm font-medium hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-300"
+            >
+              Delete
+            </button>
+          </form>
+
+          <!-- Necessary to be get to send POST request to load a page with a prefill ! -->
+          <form action="{% url 'todo-edit' t.pk %}" method="get" class="inline">
+            <button
+              type="submit"
+              class="rounded-md bg-blue-50 text-blue-700 px-3 py-1.5 text-sm font-medium hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            >
+              Edit
+            </button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% empty %}
+  <p class="text-center text-gray-600">No todos yet.</p>
   {% endfor %}
-</ul>
-{% empty %}
-<p>No todos yet.</p>
-{% endfor %}
+</div>
+
+{% endblock %}

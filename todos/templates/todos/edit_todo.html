@@ -1,21 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Edit Todo</title>
-  </head>
-  <body>
-    <h2>Editing: {{ object.title }}</h2>
+<!-- prettier-ignore -->
+{% extends 'base.html' %} {% block title %}Edit List — Todo App{% endblock %}
+ {% block content %}
 
-    <form method="post">
+<style>
+  .card input[type="text"] {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    padding: 0.625rem 0.75rem;
+    color: #111827;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.2s, border-color 0.2s;
+    outline: none;
+  }
+  .card input[type="text"]:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+  }
+  .btn-primary {
+    border-radius: 0.5rem;
+    background: #2563eb;
+    color: #fff;
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s, transform 0.05s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: #1d4ed8;
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+  .btn-cancel {
+    border-radius: 0.5rem;
+    background: #e5e7eb;
+    color: #374151;
+    padding: 0.625rem 1rem;
+    font-weight: 500;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-cancel:hover {
+    background: #d1d5db;
+  }
+  .label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: #374151;
+  }
+</style>
+
+<div class="w-full max-w-md mx-auto">
+  <div class="card bg-white rounded-xl shadow border border-gray-100 p-6">
+    <h2 class="text-xl font-bold text-gray-900 mb-4">
+      Editing: {{ object.name|default:"New List" }}
+    </h2>
+
+    <form method="post" class="space-y-4">
       {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Save</button>
-      <button
-        type="button"
-        onclick="window.location.href='{% url 'index-list' %}'"
-      >
-        Cancel
-      </button>
+      <div class="flex items-center justify-between">
+        <button type="submit" class="btn-primary">Save</button>
+        <button
+          type="button"
+          class="btn-cancel"
+          onclick="window.location.href='{% url 'index-list' %}'"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
-  </body>
-</html>
+  </div>
+</div>
+
+{% endblock %}

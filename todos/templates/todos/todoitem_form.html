@@ -1,7 +1,80 @@
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Save</button>
-</form>
-<button type="button" onclick="window.location.href='{% url 'index-list' %}'">
-  Go to Index
-</button>
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% block title %}Edit Todo — Todo App{% endblock %}
+{% block content %}
+
+<style>
+  .form-card input[type="text"],
+  .form-card input[type="date"],
+  .form-card input[type="number"],
+  .form-card input[type="password"],
+  .form-card select,
+  .form-card textarea {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    padding: 0.625rem 0.75rem;
+    color: #111827;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.2s, border-color 0.2s;
+    outline: none;
+  }
+  .form-card input:focus,
+  .form-card select:focus,
+  .form-card textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+  }
+  .btn-primary {
+    display: inline-block;
+    border-radius: 0.5rem;
+    background: #2563eb;
+    color: #fff;
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s, transform 0.05s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: #1d4ed8;
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+  .link-muted {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .link-muted:hover {
+    text-decoration: underline;
+  }
+  .form-card p {
+    margin-bottom: 0.75rem;
+  }
+  .form-card label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    color: #374151;
+  }
+</style>
+
+<div class="w-full max-w-md mx-auto">
+  <div class="form-card bg-white rounded-xl shadow border border-gray-100 p-6">
+    <h2 class="text-xl font-bold text-gray-900 mb-4">Todo</h2>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %} {{ form.as_p }}
+      <div class="flex items-center justify-between">
+        <button type="submit" class="btn-primary">Save</button>
+        <a href="{% url 'index-list' %}" class="link-muted">Go to Index</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

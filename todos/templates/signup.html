@@ -1,6 +1,98 @@
-<h2>Create account</h2>
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Sign up</button>
-</form>
-<p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+<!-- prettier-ignore -->
+{% extends 'base.html' %} {% block title %}Sign up — Todo App{% endblock %} 
+
+{% block content %}
+
+<!-- Page‑scoped styles so we can beautify inputs without touching forms.py -->
+<style>
+  .signup-card input[type="text"],
+  .signup-card input[type="password"],
+  .signup-card input[type="email"] {
+    width: 100%;
+    border-radius: 0.5rem; /* rounded-lg */
+    border: 1px solid #d1d5db; /* gray-300 */
+    background: #f9fafb; /* gray-50 */
+    padding: 0.625rem 0.75rem; /* py-2.5 px-3 */
+    color: #111827; /* gray-900 */
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03); /* shadow-sm */
+    transition: box-shadow 0.2s, border-color 0.2s;
+    outline: none;
+  }
+  .signup-card input[type="text"]:focus,
+  .signup-card input[type="password"]:focus,
+  .signup-card input[type="email"]:focus {
+    border-color: #2563eb; /* blue-600 */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35); /* focus:ring-2 blue */
+  }
+  .signup-card .help {
+    margin-top: 0.25rem;
+    font-size: 0.75rem; /* text-xs */
+    color: #6b7280; /* gray-500 */
+  }
+  .signup-card .error {
+    margin-top: 0.25rem;
+    font-size: 0.875rem; /* text-sm */
+    color: #dc2626; /* red-600 */
+  }
+</style>
+
+<div class="w-full max-w-md mx-auto">
+  <div
+    class="signup-card bg-white rounded-xl shadow border border-gray-100 p-8"
+  >
+    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+      Create account
+    </h2>
+
+    {% if form.non_field_errors %}
+    <div class="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700">
+      {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+
+    <form method="post" class="space-y-5">
+      {% csrf_token %} {% for field in form %}
+      <div>
+        <label
+          class="block text-sm font-medium text-gray-700 mb-1"
+          for="{{ field.id_for_label }}"
+        >
+          {{ field.label }}
+        </label>
+        {{ field }} {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %} {% if field.errors %}
+        <p class="error">{{ field.errors|striptags }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <button
+        type="submit"
+        class="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-white font-semibold shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        Sign up
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-gray-600">
+      Already have an account?
+      <a
+        href="{% url 'login' %}"
+        class="font-medium text-blue-600 hover:text-blue-700"
+        >Log in</a
+      >
+    </p>
+  </div>
+</div>
+
+<script>
+  // Focus the first input for a nicer UX
+  (function () {
+    try {
+      document.querySelector(".signup-card input")?.focus();
+    } catch (e) {}
+  })();
+</script>
+
+{% endblock %}
