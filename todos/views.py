@@ -14,7 +14,17 @@ def IndexList(request):
     # all TodoItems that belong to any TodoList owned by the current user.
     all_todos = TodoItem.objects.filter(
         todolist__user=request.user).order_by("todolist__name", "-created")
-    return render(request, 'index.html', {'all_todos': all_todos})
+
+    total = TodoItem.objects.filter(
+        todolist__user=request.user).count()
+    done = TodoItem.objects.filter(
+        todolist__user=request.user, done=True).count()
+    pending = total - done
+    percent = round((done / total) * 100, 1) if total else 0
+    return render(request, 'index.html', {'all_todos': all_todos, 'total': total,
+                                          'done': done,
+                                          'pending': pending,
+                                          'percent': percent})
 
 
 @require_POST

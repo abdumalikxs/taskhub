@@ -1,6 +1,6 @@
 <!-- prettier-ignore -->
 {% extends 'base.html' %}
-{% block title %}Edit Todo — Todo App{% endblock %}
+{% block title %}Edit Todo — TaskHub{% endblock %}
 {% block content %}
 
 <style>
@@ -71,7 +71,7 @@
       {% csrf_token %} {{ form.as_p }}
       <div class="flex items-center justify-between">
         <button type="submit" class="btn-primary">Save</button>
-        <a href="{% url 'index-list' %}" class="link-muted">Go to Index</a>
+        <a href="{% url 'index-list' %}" class="link-muted">Go to Main</a>
       </div>
     </form>
   </div>

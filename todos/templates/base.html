@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Todo App{% endblock %}</title>
+    <title>{% block title %}TaskHub{% endblock %}</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
@@ -19,19 +19,25 @@
           <a
             href="{% url 'index-list' %}"
             class="text-lg font-semibold tracking-tight"
-            >Todo App</a
+            >TaskHub</a
           >
           <div class="flex items-center space-x-4">
+            {% if user.is_authenticated %}
             <p class="m-0 hidden sm:block">
               Hello, {{ request.user.username }}
             </p>
+            {% endif %}
             <form action="{% url 'logout' %}" method="post" class="inline">
               {% csrf_token %}
+              <!-- prettier-ignore -->
               <button
                 type="submit"
-                class="bg-white text-blue-700 px-4 py-1.5 rounded-full hover:bg-gray-100 shadow-sm"
-              >
-                Logout
+                class="bg-white text-blue-700 px-4 py-1.5 rounded-full hover:bg-gray-100 shadow-sm">
+                {% if user.is_authenticated %} 
+                Logout 
+                {% else %} 
+                Login 
+                {% endif %}
               </button>
             </form>
           </div>
@@ -46,7 +52,7 @@
 
     <!-- Footer -->
     <footer class="bg-gray-200 text-center py-3 mt-auto text-sm text-gray-600">
-      © 2025 Todo App — Built with Django
+      © 2025 TaskHub — Built with Django - Abdumalik Dev.
     </footer>
   </body>
 </html>
