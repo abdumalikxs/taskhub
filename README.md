@@ -1,6 +1,6 @@
 # 🗂️ Welcome to TaskHub! 🚀🧠💻
 
-**Demo:** [https://taskhub.pythonanywhere.com/](https://taskhub.pythonanywhere.com/)
+**Demo:** [https://abdumalikxs.pythonanywhere.com/](https://abdumalikxs.pythonanywhere.com/)
 
 ---
 
@@ -15,7 +15,7 @@ TaskHub bridges that gap by offering an intuitive dashboard that’s as function
 ## ⚙️ What It Does
 
 TaskHub is a **collaborative task manager** built with Django’s MTV architecture.  
-It lets users create, edit, complete, and delete tasks while providing an optional **AI-powered assistant** for brainstorming ideas and managing productivity.
+It efficiently lets users create, edit, complete, and delete tasks while providing
 
 ### ✨ Core Functions
 
@@ -45,9 +45,9 @@ The frontend is built using Django’s template inheritance system with HTML, CS
 
 ## 🚧 Challenges I Faced
 
-🔧 Designing clean, reusable models and templates while maintaining readability  
+🔧 Designing clean, reusable models and templates while maintaining readability.  
 🗃️ Structuring URL routes and view logic to keep the project modular, maintainable, and ready for future API expansion.
-🎨 Keeping the UI both responsive and minimal across devices
+🎨 Keeping the UI both responsive and minimal across devices.
 
 ---
 
@@ -56,7 +56,6 @@ The frontend is built using Django’s template inheritance system with HTML, CS
 ✨ Built a **fully functional task management system** from scratch using Django  
 🔐 Implemented a **user login/logout system** using Django’s built-in authentication framework  
 ⚡ Optimized the UI with Tailwind CSS for a lightweight, modern experience  
-🧠 Integrated **AI features** to boost productivity and creativity  
 ☁️ Successfully **deployed** on PythonAnywhere for live demonstration
 
 ---
