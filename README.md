@@ -11,6 +11,7 @@ While many to-do apps exist, most fail to combine **collaboration**, and a **cle
 TaskHub bridges that gap by offering an intuitive dashboard that’s as functional as it is beautiful.
 
 ---
+<img width="1440" height="900" alt="Screenshot 2025-10-27 at 23 41 07" src="https://github.com/user-attachments/assets/09ca8abb-8738-4374-a0b3-49e1b220567d" />
 <img width="1440" height="900" alt="Screenshot 2025-10-27 at 23 33 01" src="https://github.com/user-attachments/assets/8c7c23e3-c214-424f-91ec-823590421c71" />
 <img width="1440" height="900" alt="Screenshot 2025-10-27 at 23 34 15" src="https://github.com/user-attachments/assets/dbabb9a9-d43b-404a-ba03-3070e6656c09" />
 <img width="1440" height="900" alt="Screenshot 2025-10-27 at 23 34 37" src="https://github.com/user-attachments/assets/90481e45-176e-43e2-8acd-091790c7c93e" />
